@@ -1,4 +1,5 @@
 import { Card, Box, Typography, styled } from "@mui/material";
+import PlaceOrder from "./PlaceOrder";
 
 const Component = styled(Card)`
   border-top: 1px solid #f0f0f0;
@@ -16,7 +17,6 @@ const Cost = styled(Typography)`
 `;
 
 const CartItem = ({ item }) => {
-  console.log("hoe does .it look here.... ", item)
   return (
     <Component key={item.productId.id}>
       <LeftComponent>

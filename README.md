@@ -8,5 +8,5 @@
 #search products with debounce technique
 #only logged in user can manage product
 #cloudinary for image storage
-
+#testmode razorpay for checkout
 #bulilt apis using node express mongo

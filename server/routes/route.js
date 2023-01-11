@@ -4,6 +4,7 @@ import {
   addProductToCartController,
   getCartController,
 } from "../controller/cartController.js";
+import { checkoutController, paymentVerifyController } from "../controller/orderController.js";
 
 import {
   addProductController,
@@ -37,6 +38,10 @@ router.get("/cart/:userId", getCartController);
 router.post("/checkout");
 router.get("/products/categories", getCategoryController);
 router.get("/products/category/:category", getProductsbyCategoryController);
+
+// checkout
+router.post("/order/checkout", checkoutController)
+router.post("/verify", paymentVerifyController)
 
 export default router;
 

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getCartItems } from "../service/api";
 import CartItem from "./CartItem";
+import PlaceOrder from "./PlaceOrder";
 
 const Component = styled(Grid)(({ theme }) => ({
   padding: "30px 135px",
@@ -55,7 +56,9 @@ const Cart = () => {
               <CartItem item={item} />
             ))}
           </LeftComponent>
-          <Grid item lg={3} md={3} sm={12} xs={12}></Grid>
+          <Grid item lg={3} md={3} sm={12} xs={12}>
+          <PlaceOrder />
+          </Grid>
         </Component>
       ) : (
         "Cart is empty"
