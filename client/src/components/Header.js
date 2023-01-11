@@ -45,7 +45,7 @@ const Header = () => {
               <Badge
                 badgeContent={
                   cartDetails.cartItems?.length
-                    ? cartDetails.cartItems[cartDetails.cartItems.length-1].quantity
+                    ? cartDetails.cartItems.length
                     : ""
                 }
                 color="secondary"

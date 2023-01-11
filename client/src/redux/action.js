@@ -3,20 +3,23 @@ import * as actionTypes from './cartConstants.js';
 import axios from 'axios';
 import { url } from '../appConstants.js';
 
-export const addToCart = (id, quantity) => async (dispatch) => {
+export const addToCart = (productId, quantity, price) => async (dispatch) => {
     try { 
-        console.log("id,,, ", id)
+        console.log("id,,, ", productId)
         // console.log("quantity.... ", quantity)
         console.log("id... ", sessionStorage.getItem("userId"))
         const data = await axios.post(`${url}/product/cart`, 
         {
             "userId":sessionStorage.getItem("userId"),
             "products":[{
-                "productId":id,
+                "productId":productId,
+                quantity: quantity,
+                price:price
             }
             ]
         }
         )
+        console.log("data... ", data)
         dispatch({ type: actionTypes.ADD_TO_CART, payload: { ...data.data.cartResponse.products, quantity } });
 
     } catch (error) {

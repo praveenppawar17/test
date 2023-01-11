@@ -9,9 +9,9 @@ export const addProductToCartService = async(cartDetails) => {
     }
 }
 
-export const getCartService = async (id) => {
+export const getCartService = async (userId) => {
     try {
-        const cartResponse = await getCartDao(id)
+        const cartResponse = await getCartDao(userId)
         return cartResponse
     } catch (error) {
         return error

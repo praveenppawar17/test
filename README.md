@@ -1,5 +1,6 @@
 # test
-
+#used materialUI
+#redux for state management
 #register login logut feature
 #password encrypt using bcrypt
 #created products with different category

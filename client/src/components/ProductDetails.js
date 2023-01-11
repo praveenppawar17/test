@@ -54,9 +54,9 @@ const ProductDetails = () => {
     fetchData();
   }, []);
 
-  const addItemToCart = (id) => {
+  const addProductToCart = (productId) => {
     setQuantity(quantity + 1);
-    dispatch(addToCart(id, quantity));
+    dispatch(addToCart(productId, quantity, product.price));
   };
   return (
     <Component>
@@ -69,7 +69,7 @@ const ProductDetails = () => {
           <Typography>{product.category}</Typography>
           <Typography>Price: ₹ {product.price} only</Typography>
           <Button
-            onClick={() => addItemToCart(product._id)}
+            onClick={() => addProductToCart(product._id)}
             variant="contained"
           >
             Add to cart

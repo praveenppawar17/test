@@ -1,6 +1,9 @@
 import { Box, Typography, Grid, styled } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
+import { getCartItems } from "../service/api";
 import CartItem from "./CartItem";
 
 const Component = styled(Grid)(({ theme }) => ({
@@ -24,8 +27,20 @@ const Header = styled(Box)`
   background: #fff;
 `;
 
+
 const Cart = () => {
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const [cartItems, setCartItems] = useState([])
+  // const cartItems = useSelector((state) => state.cart.cartItems);
+  useEffect(()=>{
+    const getUserCartItems = async () => {
+    const cartResponse = await getCartItems(sessionStorage.getItem("userId"))
+    console.log("carrit,es.... ", cartResponse)
+    setCartItems([...cartItems, ...cartResponse.data.cartResponse.products])
+    
+    }
+    getUserCartItems()
+  },[])
+  console.log("cartims cosl... ", cartItems.length?.cartItems )
   return (
     <>
       {cartItems.length ? (

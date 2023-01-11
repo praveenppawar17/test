@@ -115,3 +115,12 @@ export const deleteProductByid = async (id) => {
         return error
     }
 }
+
+export const getCartItems = async (userId) => {
+    try {
+        let cartResponse = await axios.get(`${url}/cart/${userId}`)
+        return cartResponse
+    } catch (error) {
+        return error
+    }
+}
