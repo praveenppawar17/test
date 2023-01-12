@@ -68,13 +68,12 @@ const AddProduct = () => {
     const data = new FormData();
     data.append("name", file.name);
     data.append("file", file);
-    // const CLOUDINARY_URL="cloudinary://858795816476233:uqBiRJzZ7s8btOPZnSmdpWCluo0@dfe4pvkkc/image/upload"
     const CLOUDINARY_URL =
-      "https://api.cloudinary.com/v1_1/dfe4pvkkc/image/upload";
+      `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`;
     const instance = axios.create();
     data.append("file", file);
-    data.append("upload_preset", "o7truwhc");
-    data.append("cloud_name", "dfe4pvkkc");
+    data.append("upload_preset", process.env.REACT_APP_UPLOAD_PRESET);
+    data.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
     let response = await instance.post(CLOUDINARY_URL, data);
 
     const productDeatils = {
