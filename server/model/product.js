@@ -23,16 +23,12 @@ const ProductSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true
-    },
-    // countInStock: {
-    //     type: Number,
-    //     // required: true,
-    //   },
+    }
 },
     { timestamps: true }
 );
 
-ProductSchema.index({title: "text"})
+ProductSchema.index({title: "text", description:"text"})
 
 const product = mongoose.model('product', ProductSchema);
 export default product

@@ -27,7 +27,12 @@ const PlaceOrder = () => {
       return;
     }
 
-    const result = await makePayment({ amount: 500 });
+    const paymentDetails = {
+      accessToken:sessionStorage.getItem("accessToken"),
+     amount: 500 
+  }    
+    const result = await makePayment(paymentDetails);
+    console.log("result..... ", result)
     if (!result) {
       alert("Server error. Are you online?");
       return;
@@ -48,9 +53,11 @@ const PlaceOrder = () => {
           razorpay_payment_id: response.razorpay_payment_id,
           razorpay_order_id: response.razorpay_order_id,
           razorpay_signature: response.razorpay_signature,
+          accessToken:sessionStorage.getItem("accessToken"),
         };
 
         const result = await verifyPayment(data);
+        console.log("result.... ", result)
         alert(result.data.msg);
       },
       //   temporary static details

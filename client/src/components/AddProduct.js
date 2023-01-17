@@ -16,7 +16,6 @@ import { addProduct, getCategory } from "../service/api";
 const Component = styled(Box)`
   width: 500px;
   margin: auto;
-  // box-shadow: 5px 2px 5px 2px rgb(0 0 0/ 0.6);
 `;
 
 const UploadButton = styled(Button)`
@@ -43,26 +42,34 @@ const Wrapper = styled(Box)`
 const productDetails = {
   title: "",
   description: "",
-  category: "",
+  category: "electronics",
   price: "",
 };
 
 const AddProduct = () => {
+  const category = "electronics" 
   const [product, setProduct] = useState(productDetails);
   const [categories, setCategories] = useState([]);
+  const [file, setFile] = useState("");
 
   useEffect(() => {
     const getCategoryList = async () => {
-      const categoryResponse = await getCategory();
-      setCategories([...categories, ...categoryResponse.data.categoryResponse]);
+      const userDetails = {accessToken:sessionStorage.getItem("accessToken")}
+      const categoryResponse = await getCategory(userDetails);
+      setCategories([ ...categoryResponse.data.categoryResponse]);
     };
     getCategoryList();
   }, []);
 
-  const [file, setFile] = useState("");
+  
   const onValueChange = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
+    console.log("what does it contain....... ", product)
   };
+
+  const onSelectChange = (e) => {
+    setProduct({...product,[e.target.name]:e.target.value})
+  }
 
   const uploadProduct = async (e) => {
     const data = new FormData();
@@ -79,8 +86,10 @@ const AddProduct = () => {
     const productDeatils = {
       ...product,
       image: response.data.secure_url,
+      userDetails : {accessToken:sessionStorage.getItem("accessToken")}
     };
     const productResponse = await addProduct(productDeatils);
+    console.log("product res.... ", productResponse)
     if (productResponse.data.statusCode === 200) {
       alert(
         `${productResponse.data.productResponse.title} has been added successfully`
@@ -116,13 +125,14 @@ const AddProduct = () => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            // value={age}
-            label="Age"
-            onChange={(e) => onValueChange(e)}
+            value={category}
+            label="Category"
+            onChange={(e) => onSelectChange(e)}
+            name="category"
           >
             {categories.map((category) => {
               return (
-                <MenuItem value={category.category} key={category._id}>
+                <MenuItem value={category.category} name="category" key={category._id}>
                   {category.category}
                 </MenuItem>
               );

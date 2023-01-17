@@ -12,7 +12,8 @@ const Home = () => {
   const searchData = useSelector(state => state.cart.products)
   useEffect(() => {
     const getCategoryList = async () => {
-      const categoryResponse = await getCategory();
+      const userDetails = {accessToken:sessionStorage.getItem("accessToken")}
+      const categoryResponse = await getCategory(userDetails);
       setCategories([...categories,...categoryResponse.data.categoryResponse]);
     };
     getCategoryList();

@@ -77,6 +77,7 @@ const Login = ({ isUserAuthenticated }) => {
   const [signup, setSignup] = useState(signupInitialValues);
   const [error, setError] = useState("");
   const [login, setLogin] = useState(loginInitialValues);
+  const [validationMessages, setValidationMessages] = useState({});
   const navigate = useNavigate();
 
   const toggleSignup = () => {
@@ -87,16 +88,18 @@ const Login = ({ isUserAuthenticated }) => {
     setSignup({ ...signup, [e.target.name]: e.target.value });
   };
   const signupUser = async () => {
-    console.log(";sinup Object....", signup);
+   
     let response = await userSignup(signup);
     console.log("wil i get hrer..... ", response);
     if (response.isSuccess) {
       setError("");
-      setSignup(signupInitialValues);
+      alert(`${response.response.data.userResponse.name} ${response.response.data.msg}`)
+      // setSignup(signupInitialValues);
       toggleAccount("login");
     } else {
       setError("Something went wrong please try again later");
     }
+  
   };
 
   const onValueChange = (e) => {
@@ -119,6 +122,8 @@ const Login = ({ isUserAuthenticated }) => {
       );
       sessionStorage.setItem("name", response.response.data.name);
       sessionStorage.setItem("userId", response.response.data.userId);
+      sessionStorage.setItem("accessToken", response.response.data.accessToken);
+      sessionStorage.setItem("refreshToken", response.response.data.refreshToken)
       // setAccount({ username: response.data.username, name: response.data.name});
       isUserAuthenticated(true);
       navigate("/");
@@ -169,14 +174,19 @@ const Login = ({ isUserAuthenticated }) => {
             name="email"
             label="Enter email"
           />
+          <Typography variant="caption" color="error">
+            {validationMessages.email}
+          </Typography>
           <TextField
             variant="standard"
             onChange={(e) => onInputChange(e)}
             name="password"
             label="Enter password"
           />
-
-          {error && <Error>{error}</Error>}
+          <Typography variant="caption" color="error">
+            {validationMessages.password}
+          </Typography>
+          {/* {error && <Error>{error}</Error>} */}
           <SignupButton onClick={signupUser}>Signup</SignupButton>
           <Text style={{ textAlign: "center" }}>OR</Text>
           <LoginButton variant="contained" onClick={() => toggleSignup()}>

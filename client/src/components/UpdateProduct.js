@@ -45,11 +45,15 @@ const UpdateProduct = () => {
 
     useEffect(()=> {
         const fetchData = async () => {
-            let response = await getProductById(id);
+          const userDetails = {
+            id,
+            accessToken:sessionStorage.getItem("accessToken")
+          }
+            let response = await getProductById(userDetails);
             console.log("prdoct deti,,,, ", response)
             if (response.isSuccess) {
                 console.log('how it goes...... ', response.response)
-                setProduct({...product,...response.response.data.productResponse});
+                setProduct({product,...response.response.data.productResponse});
                 console.log("------- ", product)
             }
             
@@ -81,6 +85,7 @@ const UpdateProduct = () => {
             ...product
         },
       id,
+      accessToken: sessionStorage.getItem("accessToken")
     //   image: response.data.secure_url,
     };
     const productResponse = await editOrUpdateProduct(productDeatils);

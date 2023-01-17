@@ -3,7 +3,8 @@ import { addProductToCartService, getCartService } from "../service/cartService.
 
 export const addProductToCartController = async (request, response) => {
     try {
-        const cartResponse = await addProductToCartService(request.body)
+        console.log("in ctrl... ", request.body)
+        const cartResponse = await addProductToCartService(request.body.productDetails)
         return response.status(200).json({ statusCode: 200,msg: 'Product added to cart successfull', cartResponse})
 
     } catch (error) {

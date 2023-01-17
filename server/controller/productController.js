@@ -34,7 +34,8 @@ export const deleteProductByIdController = async (request,response) => {
 
 export const searchProductsController = async (request, response) => {
     try {
-        const productResponse = await searchProductService(request.body)
+        // console.log("in controler.... ", reques)
+        const productResponse = await searchProductService(request.body.search)
         if(!productResponse){
             return response.status(200).json({ statusCode: 200,msg: 'No prducts found'}) 
         }
@@ -58,8 +59,8 @@ export const getProductByIdController = async (request, response) => {
 
 export const addProductController = async (request, response) => {
     try {
-        // console.log("product details... ", request.body)
-        const productResponse = await addProductService(request.body)
+        console.log("product details... ", request.body)
+        const productResponse = await addProductService(request.body.productDetails)
         console.log('res.... ', productResponse)
         return response.status(200).json({ statusCode: 200, productResponse})
     } catch (error) {
@@ -70,6 +71,7 @@ export const addProductController = async (request, response) => {
 
 export const getCategoryController = async(request, response) => {
     try {
+        console.log("header... ", request.body)
         const categoryResponse = await getCategoryService()
         return response.status(200).json({ statusCode: 200, isSuccess: true, categoryResponse})
     } catch (error) {

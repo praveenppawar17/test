@@ -1,4 +1,4 @@
-import { Box, InputBase, styled } from "@mui/material";
+import { Box, InputBase, styled, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch } from "react-redux";
@@ -54,7 +54,13 @@ const Search = () => {
 
   useEffect(() => {
     let timeOut = setTimeout(async () => {
-      const searchRes = await searchProducts(searchField);
+      const searchDetails = {
+        searchField,
+        accessToken:sessionStorage.getItem("accessToken")
+      }
+      if(searchDetails.searchField !== ""){
+      const searchRes = await searchProducts(searchDetails);
+      console.log("search res... ", searchRes)
       const filteredProducts = searchRes.response.data.productResponse.filter(
         (product) => {
           return product.title
@@ -68,6 +74,7 @@ const Search = () => {
       } else {
         dispatch(updateToggle(filteredProducts));
       }
+    }
     }, 500);
     return () => clearTimeout(timeOut);
   }, [searchField]);

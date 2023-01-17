@@ -1,9 +1,16 @@
 import axios from "axios";
 import { url } from "../appConstants";
 
-export const getCategory = async () => {
+export const getCategory = async (userDetails) => {
   try {
-    let response = await axios.get(`${url}/products/categories`);
+    console.log("api.... ", userDetails)
+    let response = await axios.get(`${url}/products/categories`,
+    {headers: 
+      {"Authorization": `Bearer ${userDetails.accessToken}`},
+      Accept: "application/json"
+    }
+    );
+    console.log("respo.... ", response)
     return response;
   } catch (error) {
     console.log("error", error);
@@ -11,9 +18,15 @@ export const getCategory = async () => {
   }
 };
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (userDetails) => {
   try {
-    let response = await axios.get(`${url}/products`);
+    console.log("det... ", userDetails)
+    let response = await axios.get(`${url}/products`,
+    {headers: 
+      {"Authorization": `Bearer ${userDetails.accessToken}`},
+      Accept: "application/json"
+    }
+    );
     return {
       isSuccess: true,
       response,
@@ -24,10 +37,16 @@ export const getAllProducts = async () => {
   }
 };
 
-export const getAllProductsCategory = async (category) => {
+export const getAllProductsCategory = async (categoryDetails) => {
   try {
-    console.log("how category looks here... ", category);
-    let response = await axios.get(`${url}/products/category/${category}`);
+    console.log("how category looks here... ", categoryDetails);
+    let response = await axios.get(`${url}/products/category/${categoryDetails.category}`,
+    {
+      headers:
+      {"Authorization": `Bearer ${categoryDetails.userDetails.accessToken}`},
+      Accept: "application/json"
+    }
+    );
     return {
       isSuccess: true,
       response,
@@ -38,9 +57,15 @@ export const getAllProductsCategory = async (category) => {
   }
 };
 
-export const getProductById = async (id) => {
+export const getProductById = async (userDetails) => {
   try {
-    let response = await axios.get(`${url}/product/${id}`);
+    let response = await axios.get(`${url}/product/${userDetails.id}`,
+    {
+      headers:
+      {"Authorization": `Bearer ${userDetails.accessToken}`},
+      Accept: "application/json"
+    }
+    );
     return {
       isSuccess: true,
       response,
@@ -75,9 +100,18 @@ export const userLogin = async (loginDetails) => {
   } catch (error) {}
 };
 
-export const searchProducts = async (search) => {
+export const searchProducts = async (searchDetails) => {
   try {
-    let response = await axios.post(`${url}/search`, { search });
+    console.log("searchdetaisl... ", searchDetails)
+    console.log("url is... ", `${url}/search`)
+    let response = await axios.post(`${url}/search`, 
+    {headers:
+      {"Authorization": `Bearer ${searchDetails.accessToken}`},
+      Accept: "application/json",
+      search: searchDetails.searchField
+    }
+    );
+    console.log("res for saeach.... ", response)
     return {
       isSuccess: true,
       response,
@@ -87,9 +121,16 @@ export const searchProducts = async (search) => {
   }
 };
 
-export const addProduct = async (productDeatils) => {
+export const addProduct = async (productDetails) => {
   try {
-    let productResponse = await axios.post(`${url}/product`, productDeatils);
+    console.log("product details... ", productDetails)
+    let productResponse = await axios.post(`${url}/product`, 
+    {productDetails: productDetails},
+    {headers:
+      {"Authorization": `Bearer ${productDetails.userDetails.accessToken}`},
+      Accept: "application/json",
+    }
+    );
     return productResponse;
   } catch (error) {
     return error;
@@ -100,7 +141,11 @@ export const editOrUpdateProduct = async (editDetails) => {
   try {
     let productResponse = await axios.put(
       `${url}/product/${editDetails.id}`,
-      editDetails.product
+      {productDetails: editDetails.product},
+      {headers:
+        {"Authorization": `Bearer ${editDetails.accessToken}`},
+        Accept: "application/json",
+      }
     );
     return productResponse;
   } catch (error) {
@@ -108,18 +153,32 @@ export const editOrUpdateProduct = async (editDetails) => {
   }
 };
 
-export const deleteProductByid = async (id) => {
+export const deleteProductByid = async (userDetails) => {
   try {
-    let deleteResponse = await axios.delete(`${url}/product/${id}`);
+    let deleteResponse = await axios.delete(`${url}/product/${userDetails.id}`,
+    {headers:
+
+      {"Authorization": `Bearer ${userDetails.accessToken}`},
+      Accept: "application/json"
+
+    }
+    );
     return deleteResponse;
   } catch (error) {
     return error;
   }
 };
 
-export const getCartItems = async (userId) => {
+export const getCartItems = async (userDetails) => {
   try {
-    let cartResponse = await axios.get(`${url}/cart/${userId}`);
+    let cartResponse = await axios.get(`${url}/cart/${userDetails.userId}`,
+    {headers:
+
+      {"Authorization": `Bearer ${userDetails.accessToken}`},
+      Accept: "application/json"
+
+    }
+    );
     return cartResponse;
   } catch (error) {
     return error;
@@ -130,7 +189,12 @@ export const makePayment = async (paymentDetails) => {
   try {
     let paymentResponse = await axios.post(
       `${url}/order/checkout`,
-      paymentDetails
+      {amount:paymentDetails.amount},
+      {headers:
+        {"Authorization": `Bearer ${paymentDetails.accessToken}`},
+        Accept: "application/json",
+        // amount: paymentDetails.amount
+      }
     );
     return paymentResponse;
   } catch (error) {
@@ -140,7 +204,15 @@ export const makePayment = async (paymentDetails) => {
 
 export const verifyPayment = async (data) => {
   try {
-    let verificationResponse = await axios.post(`${url}/verify`, data);
+    console.log("how does data look... ", data)
+    let verificationResponse = await axios.post(`${url}/verify`, 
+    {data},
+    {headers:
+      {"Authorization": `Bearer ${data.accessToken}`},
+      Accept: "application/json",
+    }
+    // data
+    );
     return verificationResponse;
   } catch (error) {
     return error;

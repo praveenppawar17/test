@@ -20,6 +20,8 @@ const LinktoProduct = styled(ListItem)`
 `;
 
 function SearchList(props) {
+  console.log("prop..... ", props)
+  
   const filtered = props.filteredProducts.map((product) => (
     <List key={product._id}>
       <LinktoProduct component={Link} to={`/product/${product._id}`}>

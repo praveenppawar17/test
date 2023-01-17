@@ -21,27 +21,27 @@ import {
   loginUserController,
   signupUserController,
 } from "../controller/userController.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 
 router.post("/user/signup", signupUserController);
 router.post("/user/login", loginUserController);
 
 router.get("/product", addProductsFromFakeStoreController);
-router.get("/products", getAllProductsController)
-router.post("/product",  addProductController);
-router.get("/product/:id", getProductByIdController);
-router.put("/product/:id", updateProductController);
+router.get("/products", verifyToken, getAllProductsController)
+router.post("/product",  verifyToken, addProductController);
+router.get("/product/:id", verifyToken, getProductByIdController);
+router.put("/product/:id", verifyToken, updateProductController);
 router.post("/search", searchProductsController);
-router.delete("/product/:id", deleteProductByIdController);
-router.post("/product/cart", addProductToCartController);
-router.get("/cart/:userId", getCartController);
-router.post("/checkout");
-router.get("/products/categories", getCategoryController);
-router.get("/products/category/:category", getProductsbyCategoryController);
+router.delete("/product/:id", verifyToken, deleteProductByIdController);
+router.post("/product/cart", verifyToken, addProductToCartController);
+router.get("/cart/:userId", verifyToken, getCartController);
+router.get("/products/categories", verifyToken,getCategoryController);
+router.get("/products/category/:category", verifyToken,getProductsbyCategoryController);
 
 // checkout
-router.post("/order/checkout", checkoutController)
-router.post("/verify", paymentVerifyController)
+router.post("/order/checkout", verifyToken,checkoutController)
+router.post("/verify", verifyToken,paymentVerifyController)
 
 export default router;
 

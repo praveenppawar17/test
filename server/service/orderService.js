@@ -25,8 +25,9 @@ export const checkoutService = async (orderDetails) => {
 
 export const paymentVerifyService = async (verificationDetails) => {
   try {
+    console.log("heer oin  service.... ", verificationDetails)
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-      verificationDetails;
+      verificationDetails.data;
     const sign = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSign = crypto
       .createHmac("sha256", process.env.KEY_SECRET)

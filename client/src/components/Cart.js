@@ -1,8 +1,5 @@
 import { Box, Typography, Grid, styled } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
-
-import { useSelector } from "react-redux";
 import { getCartItems } from "../service/api";
 import CartItem from "./CartItem";
 import PlaceOrder from "./PlaceOrder";
@@ -31,11 +28,14 @@ const Header = styled(Box)`
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([])
-  // const cartItems = useSelector((state) => state.cart.cartItems);
   useEffect(()=>{
     const getUserCartItems = async () => {
-    const cartResponse = await getCartItems(sessionStorage.getItem("userId"))
-    console.log("carrit,es.... ", cartResponse)
+      const userDetails = {
+        accessToken:sessionStorage.getItem("accessToken"),
+        userId: sessionStorage.getItem("userId")
+      } 
+    const cartResponse = await getCartItems(userDetails)
+    console.log("cart items.... ", cartResponse)
     setCartItems([...cartItems, ...cartResponse.data.cartResponse.products])
     
     }
@@ -61,7 +61,7 @@ const Cart = () => {
           </Grid>
         </Component>
       ) : (
-        "Cart is empty"
+        <Typography style={{textAlign:"center"}}>Cart is empty</Typography>
       )}
     </>
   );

@@ -12,10 +12,10 @@ export const addProductsFromFakeStoreDao = async (productsData) => {
 
 export const updateProductDao = async (updateDetails) => {
     try {
-        console.log("hows the details... ", updateDetails)
+        console.log("hows the details... ", updateDetails.details.productDetails)
         const productResponse = await Product.updateOne(
             {"_id":updateDetails.id},
-            {$set:updateDetails.details}
+            {$set:updateDetails.details.productDetails}
             )
         console.log("update res... ", productResponse)
         return productResponse
@@ -35,12 +35,14 @@ export const deleteProductByIdDao = async (id) => {
 
 export const searchProductDao = async (search) => {
     try {
+        console.log("search....... ", search)
         const productResponse = await Product.find(
-            { $text: { $search:search.search } }
+            { $text: { $search:search } }
             )
         if(!productResponse) {
             return false
         }
+        console.log("prec..... ", productResponse)
         return productResponse
     } catch (error) {
         return error

@@ -26,6 +26,7 @@ export const userLoginService = async (userDetails) => {
     }
     let userTokenDetails = {
       email: userLoginResponse.email,
+      userId: userLoginResponse._id
     };
     return {
       name: userLoginResponse.name,

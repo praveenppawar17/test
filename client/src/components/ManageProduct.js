@@ -7,7 +7,10 @@ import Product from "./Product";
 const ManageProduct = () => {
   const [products, setProducts] = useState([]);
   const fetchData = async () => {
-    let response = await getAllProducts();
+    console.log("user sessionStorage ..... ", sessionStorage)
+    const userDetails = {accessToken:sessionStorage.getItem("accessToken")}
+    console.log("user..... ", userDetails)
+    let response = await getAllProducts(userDetails);
     if (response.isSuccess) {
       setProducts(response.response.data.productResponse);
     }
@@ -17,7 +20,12 @@ const ManageProduct = () => {
   }, []);
 
   const deleteProduct = async (id) => {
-    const deleteResponse = await deleteProductByid(id);
+    const userDetails = {
+      id,
+      accessToken:sessionStorage.getItem("accessToken")
+    }
+    const deleteResponse = await deleteProductByid(userDetails);
+    console.log("delt res,..... ", deleteResponse)
     alert(deleteResponse.data.msg);
     fetchData();
   };

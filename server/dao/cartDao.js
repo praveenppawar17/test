@@ -52,7 +52,7 @@ export const getCartDao = async (userId) => {
     try {
         const cartResponse = await Cart.findOne({"userId":userId})
         .populate("products.productId")
-        console.log("... ", cartResponse)
+        console.log("cart response... ", cartResponse)
         return cartResponse
     } catch (error) {
         return error

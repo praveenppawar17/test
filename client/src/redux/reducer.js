@@ -15,18 +15,12 @@ export const cartReducer = (state = { cartItems: []}, action) => {
             return {
                 ...state, products, toggle:true
             }
+        case actionTypes.GET_CART: 
+        // const cartItems = action.payload
+        console.log("in reducer for cart items.... ", action.payload)
+        return {...state, cartItems: [ action.payload]}
         default:
             return state;
     }
 }
 
-
-// const existItem = state.cartItems.find(product => product.id === item.id);  
-// if(existItem){
-//     return {
-//         ...state, cartItems: state.cartItems.map(x => x.product === existItem.product ? item : x)
-//     }
-// } else {
-//     console.log("whats her... ", item)
-//     return  { ...state, cartItems: [...state.cartItems, item]}
-// }

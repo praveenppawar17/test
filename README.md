@@ -10,3 +10,4 @@
 #cloudinary for image storage
 #testmode razorpay for checkout
 #bulilt apis using node express mongo
+#each route is validated using users token passed using middlewares

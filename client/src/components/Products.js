@@ -10,10 +10,15 @@ const Products = () => {
   const category = searchParams.get("category");
   useEffect(() => {
     const fetchData = async () => {
+      const userDetails = {accessToken:sessionStorage.getItem("accessToken")}
+      const categoryDetails = {
+        userDetails,
+        category
+      }
       let response =
         category === null
-          ? await getAllProducts()
-          : await getAllProductsCategory(category);
+          ? await getAllProducts(userDetails)
+          : await getAllProductsCategory(categoryDetails);
       if (response.isSuccess) {
         setProducts(response.response.data.productResponse);
       }

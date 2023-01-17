@@ -2,8 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Box, Typography, styled, Grid, Button } from "@mui/material";
 import { getProductById } from "../service/api";
-import { addToCart } from "../redux/action";
-import { useDispatch, useSelector } from "react-redux";
+import { addToCart, getCart } from "../redux/action";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 const Component = styled(Box)`
@@ -46,7 +46,11 @@ const ProductDetails = () => {
   const { id } = useParams();
   useEffect(() => {
     const fetchData = async () => {
-      let response = await getProductById(id);
+      const userDetails = {
+        accessToken:sessionStorage.getItem("accessToken"),
+        id
+      }
+      let response = await getProductById(userDetails);
       if (response.isSuccess) {
         setProduct(response.response.data.productResponse);
       }
@@ -56,7 +60,15 @@ const ProductDetails = () => {
 
   const addProductToCart = (productId) => {
     setQuantity(quantity + 1);
-    dispatch(addToCart(productId, quantity, product.price));
+    const productDetails = {
+      productId, quantity, price:product.price,accessToken:sessionStorage.getItem("accessToken"),
+    }
+    dispatch(addToCart(productDetails));
+    const userDetails= {
+      userId: sessionStorage.getItem("userId"),
+      accessToken: sessionStorage.getItem("accessToken")
+    }
+    // dispatch(getCart(userDetails))
   };
   return (
     <Component>

@@ -17,8 +17,9 @@ const Cost = styled(Typography)`
 `;
 
 const CartItem = ({ item }) => {
+  console.log("item... ", item)
   return (
-    <Component key={item.productId.id}>
+    <Component key={item.productId._id}>
       <LeftComponent>
         <img
           src={item.productId.image}
